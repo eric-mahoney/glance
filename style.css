@@ -79,9 +79,11 @@ QUOTE CONTAINER
 */
 
 .container--quote {
+  width: 100%;
   position: absolute;
   padding: 20px;
   bottom: 10px;
+  display: flex;
 }
 
 .quote__content {
@@ -109,7 +111,10 @@ MEDIA QUERIES
   .weather-card {
     width: 90%;
   }
+  .container--quote {
+    justify-content: center;
+  }
   .quote {
-    width: 90%;
+    width: 50%;
   }
 }
