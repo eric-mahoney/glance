@@ -30,6 +30,9 @@ function setBackground() {
 function getDate() {
   var date = new Date();
   return {
+    minute: date.getMinutes(),
+    hour: date.getHours(),
+    period: "",
     day: date.getDay(),
     date: date.getDate(),
     month: date.getMonth(),
@@ -39,7 +42,7 @@ function getDate() {
 
 /**
  * Returns the current date
- * @param {object} the current date as an object
+ * @param {object} date the current date as an object
  * @return {object} the current date as an object
  */
 
@@ -99,6 +102,31 @@ function setDate(date) {
 }
 
 /**
+ *
+ */
+
+function mapTime(date) {
+  if (date.hour >= 12) {
+    date.period = "pm";
+  } else {
+    date.period = "am";
+  }
+  date.minute = date.minute += 1; // need to add one to reflect the current minute
+  date.hour = (date.hour + 24) % 12 || 12;
+  return date;
+}
+
+/**
+ *
+ */
+
+function setTime(date) {
+  document.getElementById("minute").innerHTML = date["minute"];
+  document.getElementById("hour").innerHTML = date["hour"];
+  document.getElementById("period").innerHTML = date["period"];
+}
+
+/**
  * retrives the quote of the day from a REST API
  * @return {JSON} data containing information about the quote such as author and content
  */
@@ -133,6 +161,9 @@ function main() {
   const currentDate = getDate();
   const mappedDate = mapDate(currentDate);
   setDate(mappedDate);
+
+  const mappedTime = mapTime(currentDate);
+  setTime(mappedTime);
 
   const quote = getQuote();
   setQuote(quote);
