@@ -35,6 +35,11 @@ body {
   font-size: 2.5em;
 }
 
+.time {
+  font-size: 25px;
+  color: #cccccc;
+}
+
 .weather {
   display: grid;
   grid-template-columns: 50px 50px;
