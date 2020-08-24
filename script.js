@@ -152,11 +152,15 @@ function setNews(news) {
     const articles = data.articles.slice(0, 5); // return only the first 5 top articles
     articles.map((data) => {
       const editedTitle = data.title.split(" - ")[0]; // removing the source from the news title
+      const finalDate = data.publishedAt.split("T")[0]; // removing the time from the published date
 
       newsContainer.innerHTML += `
       <div class="news-wrapper">
       <div class="news__image"><img src="${data.urlToImage}"></div>
-      <h3 class="news__title">${editedTitle}</h3>
+      <div class="news__info">
+      <h3 class="news__title"><a class="news__link" href="${data.url}" target="_blank" rel="noopener noreferrer">${editedTitle}</a></h3>
+      <p class="news__source">${data.source.name} &#x2022; ${finalDate}</p>
+      </div>
       </div>`;
     });
   });
