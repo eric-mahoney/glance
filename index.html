@@ -31,26 +31,29 @@
       <div class="logo">
         <h1>GLANCE</h1>
       </div>
-      <!-- 
-      <div class="weather">
-        <div class="weather__icon"><img alt="sunny weather with a high of 85" src="/assets/weather-icons/day.svg" /></div>
-        <p class="weather__temp">85&#176;</p>
-        <p class="weather__description">SUNNY</p>
-      </div>
-      -->
     </nav>
+    <div class="main-content-container">
+      <!-- MAIN HEADING -->
+      <section class="container--date">
+        <h2 class="header-text">
+          <span id="weekday"></span>,
+          <span id="month"></span>
+          <span id="date"></span>,
+          <span id="year"></span>
+        </h2>
+        <p class="time"><span id="hour"></span>:<span id="minute"></span><span id="period"></span></p>
+      </section>
 
-    <!-- MAIN HEADING -->
-    <section class="container--heading">
-      <h2 class="header-text">
-        Today is
-        <span id="weekday"></span>,
-        <span id="month"></span>
-        <span id="date"></span>,
-        <span id="year"></span>
-      </h2>
-      <p class="time">The time is <span id="hour"></span>:<span id="minute"></span><span id="period"></span></p>
-    </section>
+      <!-- NEWS CONTAINER-->
+      <section class="container--news">
+        <h2 class="section-heading">TOP HEADLINES</h2>
+        <div id="news"></div>
+      </section>
+
+      <!-- WEATHER CONTAINER -->
+    </div>
+
+    <!-- QUOTE CONTAINER -->
     <section class="container--quote">
       <div class="quote">
         <p class="quote__content"></p>

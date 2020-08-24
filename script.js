@@ -15,7 +15,7 @@ async function getPhoto() {
 
 function setBackground() {
   const body = document.querySelector("body");
-  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),";
+  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
   getPhoto().then((data) => {
     let background = linearGradient + "url(" + data.url + ")";
     body.style.background = background;
@@ -131,6 +131,42 @@ function setTime(date) {
 }
 
 /**
+ * retrives news in JSON format from NewsAPI :: https://newsapi.org/docs
+ * @return {JSON} data containing information about the news
+ */
+
+async function getNews() {
+  const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${config.newsAPI}`;
+  const request = await fetch(url);
+  return await request.json();
+}
+
+/**
+ * adds news to the DOM
+ * @param {JSON} news containing information about the news
+ */
+
+function setNews(news) {
+  const newsContainer = document.getElementById("news");
+  news.then((data) => {
+    const articles = data.articles.slice(0, 5); // return only the first 5 top articles
+    articles.map((data) => {
+      const editedTitle = data.title.split(" - ")[0]; // removing the source from the news title
+      const finalDate = data.publishedAt.split("T")[0]; // removing the time from the published date
+
+      newsContainer.innerHTML += `
+      <div class="news-wrapper">
+      <div class="news__image"><img src="${data.urlToImage}"></div>
+      <div class="news__info">
+      <h3 class="news__title"><a class="news__link" href="${data.url}" target="_blank" rel="noopener noreferrer">${editedTitle}</a></h3>
+      <p class="news__source">${data.source.name} &#x2022; ${finalDate}</p>
+      </div>
+      </div>`;
+    });
+  });
+}
+
+/**
  * retrives the quote of the day from a REST API
  * @return {JSON} data containing information about the quote such as author and content
  */
@@ -171,6 +207,9 @@ function main() {
 
   const quote = getQuote();
   setQuote(quote);
+
+  const news = getNews();
+  setNews(news);
 }
 
 main();
