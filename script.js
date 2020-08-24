@@ -1,3 +1,8 @@
+const config = {
+  weatherAPI: "b02825401afe8e67744e41e265592144",
+  newsAPI: "e67d4d336cc8496388d6ca911b8ea10e",
+};
+
 /**
  * Retrieves a photo from Unsplash's API and sets it as the background
  * @return {string} The URL to the photo from Unsplash's API
