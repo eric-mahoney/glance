@@ -111,7 +111,11 @@ function mapTime(date) {
   } else {
     date.period = "am";
   }
-  date.minute = date.minute += 1; // need to add one to reflect the current minute
+  date.minute = date.minute;
+
+  if (date.minute < 10) {
+    date.minute = "0" + date.minute;
+  }
   date.hour = (date.hour + 24) % 12 || 12;
   return date;
 }
