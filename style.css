@@ -10,8 +10,13 @@ body {
   background: black;
   background-size: cover;
   background-position: center center;
+  background-repeat: no-repeat;
   min-height: 100vh;
   width: 100%;
+}
+
+section {
+  margin: 25px 0px;
 }
 
 .navbar {
@@ -20,25 +25,84 @@ body {
   padding: 20px;
 }
 
-.container--heading {
+.main-content-container {
+  margin: 0 auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: 45% 10% 45%;
+}
+
+/* 
+
+  NEWS
+
+*/
+
+.container--news {
+  grid-column: 1/2;
+}
+
+.news-wrapper {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 400px;
+  margin: 40px 0px;
+}
+
+.news__title {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.news__image {
+  height: 100%;
+  width: 100%;
+}
+
+.news__image img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+/* 
+
+  DATE & TIME
+
+*/
+
+.container--date {
+  grid-row: 1/2;
+  grid-column: 1/4;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+}
+
+.section-heading {
+  font-size: 1em;
+  color: #aaaaaa;
 }
 
 .header-text {
   line-height: 1.5em;
   font-weight: 400;
-  padding: 20px;
   font-size: 2.5em;
 }
 
 .time {
-  font-size: 25px;
+  font-size: 2em;
   color: #cccccc;
 }
+
+/* 
+
+  WEATHER
+
+*/
 
 .weather {
   display: grid;
@@ -74,27 +138,27 @@ body {
 
 /* 
 
-QUOTE CONTAINER
+  QUOTE
 
 */
 
 .container--quote {
+  margin: 0 auto;
   width: 100%;
-  position: absolute;
   padding: 20px;
-  bottom: 10px;
   display: flex;
+  justify-content: center;
 }
 
 .quote__content {
-  font-size: 1.2em;
+  font-size: 1em;
   line-height: 1.5em;
 }
 
 .quote__author {
   color: #dddddd;
   font-style: italic;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 
 /* 
@@ -104,17 +168,28 @@ MEDIA QUERIES
 */
 
 @media (max-width: 600px) {
+  section {
+    margin: 50px 0px;
+  }
+
+  .main-content-container {
+    display: block;
+  }
+
+  .container--date {
+    grid-row: 1/2;
+  }
+
   .header-text {
     font-size: 2em;
     text-align: center;
   }
-  .weather-card {
-    width: 90%;
+
+  .news-wrapper {
+    width: 100%;
   }
+
   .container--quote {
     justify-content: center;
-  }
-  .quote {
-    width: 90%;
   }
 }

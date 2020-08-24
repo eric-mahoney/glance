@@ -15,7 +15,7 @@ async function getPhoto() {
 
 function setBackground() {
   const body = document.querySelector("body");
-  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),";
+  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
   getPhoto().then((data) => {
     let background = linearGradient + "url(" + data.url + ")";
     body.style.background = background;
@@ -131,6 +131,38 @@ function setTime(date) {
 }
 
 /**
+ * retrives news in JSON format from NewsAPI :: https://newsapi.org/docs
+ * @return {JSON} data containing information about the news
+ */
+
+async function getNews() {
+  const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${config.newsAPI}`;
+  const request = await fetch(url);
+  return await request.json();
+}
+
+/**
+ * adds news to the DOM
+ * @param {JSON} news containing information about the news
+ */
+
+function setNews(news) {
+  const newsContainer = document.getElementById("news");
+  news.then((data) => {
+    const articles = data.articles.slice(0, 5); // return only the first 5 top articles
+    articles.map((data) => {
+      const editedTitle = data.title.split(" - ")[0]; // removing the source from the news title
+
+      newsContainer.innerHTML += `
+      <div class="news-wrapper">
+      <div class="news__image"><img src="${data.urlToImage}"></div>
+      <h3 class="news__title">${editedTitle}</h3>
+      </div>`;
+    });
+  });
+}
+
+/**
  * retrives the quote of the day from a REST API
  * @return {JSON} data containing information about the quote such as author and content
  */
@@ -171,6 +203,9 @@ function main() {
 
   const quote = getQuote();
   setQuote(quote);
+
+  const news = getNews();
+  setNews(news);
 }
 
 main();
