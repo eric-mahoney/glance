@@ -1,8 +1,3 @@
-const config = {
-  weatherAPI: "b02825401afe8e67744e41e265592144",
-  newsAPI: "e67d4d336cc8496388d6ca911b8ea10e",
-};
-
 /**
  * Retrieves a photo from Unsplash's API and sets it as the background
  * @return {string} The URL to the photo from Unsplash's API
@@ -141,7 +136,7 @@ function setTime(date) {
  */
 
 async function getNews() {
-  const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${config.newsAPI}`;
+  const url = `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=RJG7b0Go0sLnc09WTpg4N7mGtZCbHJSf`;
   const request = await fetch(url);
   return await request.json();
 }
@@ -154,17 +149,17 @@ async function getNews() {
 function setNews(news) {
   const newsContainer = document.getElementById("news");
   news.then((data) => {
-    const articles = data.articles.slice(0, 5); // return only the first 5 top articles
+    const articles = data.results.slice(0, 5); // return only the first 5 top articles
+    console.log(articles);
     articles.map((data) => {
-      const editedTitle = data.title.split(" - ")[0]; // removing the source from the news title
-      const finalDate = data.publishedAt.split("T")[0]; // removing the time from the published date
+      const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
 
       newsContainer.innerHTML += `
       <div class="news-wrapper">
-      <div class="news__image"><img src="${data.urlToImage}"></div>
+      <div class="news__image"><img src="${data.multimedia[2].url}"></div>
       <div class="news__info">
-      <h3 class="news__title"><a class="news__link" href="${data.url}" target="_blank" rel="noopener noreferrer">${editedTitle}</a></h3>
-      <p class="news__source">${data.source.name} &#x2022; ${finalDate}</p>
+      <h3 class="news__title"><a class="news__link" href="${data.url}" target="_blank" rel="noopener noreferrer">${data.title}</a></h3>
+      <p class="news__source">${data.section} &#x2022; ${finalDate}</p>
       </div>
       </div>`;
     });
