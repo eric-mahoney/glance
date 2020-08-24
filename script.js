@@ -150,7 +150,6 @@ function setNews(news) {
   const newsContainer = document.getElementById("news");
   news.then((data) => {
     const articles = data.results.slice(0, 5); // return only the first 5 top articles
-    console.log(articles);
     articles.map((data) => {
       const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
 
