@@ -14,11 +14,11 @@ async function getPhoto() {
  */
 
 function setBackground() {
-  const body = document.querySelector("body");
-  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
+  const body = document.getElementById("backgroundImage");
+  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
   getPhoto().then((data) => {
-    let background = linearGradient + "url(" + data.url + ")";
-    body.style.background = background;
+    console.log(data.url);
+    body.style.background = gradient + `url('${data.url}')`;
   });
 }
 
@@ -166,6 +166,25 @@ function setNews(news) {
 }
 
 /**
+ * adds weather to the dom
+ */
+
+function geoSuccess(data) {
+  const lat = data.coords.latitude;
+  const long = data.coords.longitude;
+
+  document.getElementById("coords").innerHTML = `(${lat}, ${long})`;
+}
+
+/**
+ * adds error message to the dom
+ */
+
+function geoErr() {
+  document.getElementById("weather").innerHTML = "could not get location";
+}
+
+/**
  * retrives the quote of the day from a REST API
  * @return {JSON} data containing information about the quote such as author and content
  */
@@ -209,6 +228,13 @@ function main() {
 
   const news = getNews();
   setNews(news);
+
+  // check if the browser has geolocation feature
+  if (window.navigator.geolocation) {
+    window.navigator.geolocation.getCurrentPosition(geoSuccess, geoErr);
+  } else {
+    document.getElementById("weather").innerHTML = "geolocation not supported by browser";
+  }
 }
 
 main();

@@ -19,6 +19,15 @@ section {
   margin: 25px 0px;
 }
 
+#backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -119,6 +128,20 @@ section {
 .time {
   font-size: 2em;
   color: #cccccc;
+}
+
+/* 
+
+WEATHER
+
+*/
+
+.container--weather {
+  grid-column: 3/4;
+}
+
+#coords {
+  font-size: 10px;
 }
 
 /* 
