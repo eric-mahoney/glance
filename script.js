@@ -253,7 +253,7 @@ function geoSuccess(data) {
  */
 
 function geoErr() {
-  document.getElementById("weather").innerHTML = "could not get location";
+  document.querySelector(".forcast-container").innerHTML = "could not get location";
 }
 
 /**
