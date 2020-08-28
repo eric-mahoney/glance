@@ -47,13 +47,19 @@
 
       <!-- NEWS CONTAINER-->
       <section class="container--news">
-        <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
+        <div class="inline">
+          <a onClick="getNews()" class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
+          <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
+        </div>
         <div id="news"></div>
       </section>
 
       <!-- WEATHER CONTAINER -->
       <section class="container--weather">
-        <h2 class="section-heading">FORECAST <span id="coords"></span></h2>
+        <div class="inline">
+          <a class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
+          <h2 class="section-heading">FORECAST <span id="coords"></span></h2>
+        </div>
         <div id="weather"></div>
       </section>
     </div>

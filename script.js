@@ -1,6 +1,6 @@
 /**
  * Retrieves a photo from Unsplash's API and sets it as the background
- * @return {string} The URL to the photo from Unsplash's API
+ * @return {string} The URL to the photo
  */
 
 async function getPhoto() {
@@ -13,10 +13,10 @@ async function getPhoto() {
  * Sets the background to the body
  */
 
-function setBackground() {
+function setBackground(photo) {
   const body = document.getElementById("backgroundImage");
   const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
-  getPhoto().then((data) => {
+  photo.then((data) => {
     console.log(data.url);
     body.style.background = gradient + `url('${data.url}')`;
   });
@@ -136,9 +136,12 @@ function setTime(date) {
  */
 
 async function getNews() {
+  console.log("getting news");
   const url = `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=RJG7b0Go0sLnc09WTpg4N7mGtZCbHJSf`;
   const request = await fetch(url);
-  return await request.json();
+  request.json().then((data) => {
+    setNews(data);
+  });
 }
 
 /**
@@ -148,12 +151,12 @@ async function getNews() {
 
 function setNews(news) {
   const newsContainer = document.getElementById("news");
-  news.then((data) => {
-    const articles = data.results.slice(0, 5); // return only the first 5 top articles
-    articles.map((data) => {
-      const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
-
-      newsContainer.innerHTML += `
+  newsContainer.innerHTML = "";
+  const shuffled = news.results.sort(() => 0.5 - Math.random());
+  const articles = shuffled.slice(0, 5);
+  articles.map((data) => {
+    const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
+    newsContainer.innerHTML += `
       <div class="news-wrapper">
       <div class="news__image"><img src="${data.multimedia[2].url}"></div>
       <div class="news__info">
@@ -161,8 +164,13 @@ function setNews(news) {
       <p class="news__source">${data.section} &#x2022; ${finalDate}</p>
       </div>
       </div>`;
-    });
   });
+}
+
+async function getLocID(lat, long) {
+  const url = `https://www.metaweather.com/api/location/search/?lattlong=${lat},${long}`;
+  const request = await fetch(url);
+  return await request.json();
 }
 
 /**
@@ -174,6 +182,20 @@ function geoSuccess(data) {
   const long = data.coords.longitude;
 
   document.getElementById("coords").innerHTML = `(${lat}, ${long})`;
+
+  getLocID(lat, long).then((data) => {
+    getWeather(data[0].woeid);
+  });
+}
+
+/**
+ * adds weather to the dom
+ */
+
+async function getWeather(id) {
+  const url = `https://www.metaweather.com/api/location/${id}`; // url to a random unsplash image
+  const request = await fetch(url);
+  return await request.json();
 }
 
 /**
@@ -213,21 +235,24 @@ function setQuote(quote) {
 
 function main() {
   // setting the background
-  setBackground();
+  const photo = getPhoto();
+  setBackground(photo);
 
   // setting the date
   const currentDate = getDate();
   const mappedDate = mapDate(currentDate);
   setDate(mappedDate);
 
+  // set the time
   const mappedTime = mapTime(currentDate);
   setTime(mappedTime);
 
+  // set the quote
   const quote = getQuote();
   setQuote(quote);
 
-  const news = getNews();
-  setNews(news);
+  // set the news
+  getNews();
 
   // check if the browser has geolocation feature
   if (window.navigator.geolocation) {

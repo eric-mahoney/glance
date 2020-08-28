@@ -19,6 +19,23 @@ section {
   margin: 25px 0px;
 }
 
+.inline {
+  display: flex;
+  align-items: center;
+}
+
+.btn--refresh {
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.img--refresh {
+  font-weight: 700;
+  fill: white;
+  height: 15px;
+}
+
 #backgroundImage {
   position: absolute;
   top: 0;
