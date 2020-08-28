@@ -19,6 +19,28 @@ section {
   margin: 25px 0px;
 }
 
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
 .inline {
   display: flex;
   align-items: center;
@@ -28,6 +50,10 @@ section {
   color: white;
   padding: 10px;
   border-radius: 50%;
+}
+
+.btn--refresh:focus {
+  transform: rotate(360deg);
 }
 
 .img--refresh {
@@ -56,6 +82,7 @@ section {
   width: 90%;
   display: grid;
   grid-template-columns: 45% 10% 45%;
+  justify-items: center;
 }
 
 /* 
@@ -144,7 +171,7 @@ section {
 
 .time {
   font-size: 2em;
-  color: #cccccc;
+  color: #dddddd;
 }
 
 /* 
@@ -157,8 +184,68 @@ WEATHER
   grid-column: 3/4;
 }
 
-#coords {
-  font-size: 10px;
+.weather {
+  margin: 20px 0px;
+  max-width: 300px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 100px 100px 1fr;
+  grid-template-rows: 50px 50px 100px 1fr;
+}
+
+#weather__city {
+  grid-row: 1/2;
+  grid-column: 1/3;
+  align-self: center;
+}
+
+#weather__condition {
+  color: #aaaaaa;
+  grid-row: 2/3;
+  grid-column: 1/3;
+  font-size: 20px;
+}
+
+#weather__icon {
+  grid-row: 3/4;
+  grid-column: 1/2;
+  width: 100px;
+  height: 100px;
+}
+
+#weather__temperature {
+  grid-row: 3/4;
+  grid-column: 2/3;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
+
+#weather__current {
+  font-size: 50px;
+}
+
+#weather__range {
+  font-size: 20px;
+  color: #aaaaaa;
+}
+
+.weather__row {
+  margin: 10px 0px;
+  display: flex;
+  grid-column: 1/4;
+  justify-content: space-between;
+}
+
+.weather__label {
+  color: #aaaaaa;
+}
+
+.weather__data {
+  color: #ffffff;
 }
 
 /* 
@@ -193,7 +280,7 @@ MEDIA QUERIES
 
 */
 
-@media (max-width: 600px) {
+@media (max-width: 850px) {
   section {
     margin: 50px 0px;
   }
@@ -221,5 +308,11 @@ MEDIA QUERIES
 
   .container--quote {
     justify-content: center;
+  }
+  .weather {
+    max-width: 100%;
+  }
+  .forcast-container {
+    width: 90%;
   }
 }

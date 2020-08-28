@@ -17,7 +17,6 @@ function setBackground(photo) {
   const body = document.getElementById("backgroundImage");
   const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
   photo.then((data) => {
-    console.log(data.url);
     body.style.background = gradient + `url('${data.url}')`;
   });
 }
@@ -136,7 +135,6 @@ function setTime(date) {
  */
 
 async function getNews() {
-  console.log("getting news");
   const url = `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=RJG7b0Go0sLnc09WTpg4N7mGtZCbHJSf`;
   const request = await fetch(url);
   request.json().then((data) => {
@@ -167,10 +165,36 @@ function setNews(news) {
   });
 }
 
-async function getLocID(lat, long) {
-  const url = `https://www.metaweather.com/api/location/search/?lattlong=${lat},${long}`;
+/**
+ * checks if the browser has geolocation enabled
+ */
+
+function checkWeather() {
+  if (window.navigator.geolocation) {
+    window.navigator.geolocation.getCurrentPosition(geoSuccess, geoErr);
+  } else {
+    document.getElementById("weather").innerHTML = "geolocation not supported by browser";
+  }
+}
+
+/**
+ * fetches the weather from openweather api
+ */
+
+async function getWeather(lat, long) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=b02825401afe8e67744e41e265592144`;
   const request = await fetch(url);
   return await request.json();
+}
+
+/**
+ * converts kelvin to fahrenheit
+ * @param {int} kelvin the current temperature in kelvin
+ * @return {int} returns the temperature in fahrenheit
+ */
+
+function convertFahrenheit(kelvin) {
+  return Math.ceil((kelvin * 9) / 5 - 459.67);
 }
 
 /**
@@ -180,22 +204,48 @@ async function getLocID(lat, long) {
 function geoSuccess(data) {
   const lat = data.coords.latitude;
   const long = data.coords.longitude;
+  getWeather(lat, long).then((data) => {
+    console.log(data);
+    const icon = data.weather[0].icon;
+    const conditions = data.weather[0].description;
+    const city = data.name;
+    const country = data.sys.country;
+    const temperature = convertFahrenheit(data.main.temp);
+    const tempMax = convertFahrenheit(data.main.temp_max);
+    const tempMin = convertFahrenheit(data.main.temp_min);
+    const feelsLike = convertFahrenheit(data.main.feels_like);
+    const humidity = data.main.humidity;
+    const windspeed = data.wind.speed;
+    const cloudiness = data.clouds.all;
 
-  document.getElementById("coords").innerHTML = `(${lat}, ${long})`;
-
-  getLocID(lat, long).then((data) => {
-    getWeather(data[0].woeid);
+    document.querySelector(".forcast-container").innerHTML = `
+    <div class="weather">
+    <h2 id="weather__city">${city}, ${country}</h2>
+    <p id="weather__condition">${conditions}</p>
+    <img id="weather__icon" src="http://openweathermap.org/img/wn/${icon}@2x.png">
+    <div id="weather__temperature">
+       <p id="weather__current">${temperature}</p>
+       <p id="weather__range">${tempMin} - ${tempMax}</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">feels like</p>
+      <p class="weather__data">${feelsLike}</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">wind</p>
+      <p class="weather__data">${windspeed} mph</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">humidity</p>
+      <p class="weather__data">${humidity}%</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">cloudiness</p>
+      <p class="weather__data">${cloudiness}%</p>
+    </div>
+  </div>
+  `;
   });
-}
-
-/**
- * adds weather to the dom
- */
-
-async function getWeather(id) {
-  const url = `https://www.metaweather.com/api/location/${id}`; // url to a random unsplash image
-  const request = await fetch(url);
-  return await request.json();
 }
 
 /**
@@ -254,12 +304,8 @@ function main() {
   // set the news
   getNews();
 
-  // check if the browser has geolocation feature
-  if (window.navigator.geolocation) {
-    window.navigator.geolocation.getCurrentPosition(geoSuccess, geoErr);
-  } else {
-    document.getElementById("weather").innerHTML = "geolocation not supported by browser";
-  }
+  // check to see if the browser is capable of making the request
+  checkWeather();
 }
 
 main();
