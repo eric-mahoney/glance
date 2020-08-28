@@ -1,6 +1,6 @@
 /**
  * Retrieves a photo from Unsplash's API and sets it as the background
- * @return {string} The URL to the photo from Unsplash's API
+ * @return {string} The URL to the photo
  */
 
 async function getPhoto() {
@@ -13,12 +13,11 @@ async function getPhoto() {
  * Sets the background to the body
  */
 
-function setBackground() {
-  const body = document.querySelector("body");
-  const linearGradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
-  getPhoto().then((data) => {
-    let background = linearGradient + "url(" + data.url + ")";
-    body.style.background = background;
+function setBackground(photo) {
+  const body = document.getElementById("backgroundImage");
+  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
+  photo.then((data) => {
+    body.style.background = gradient + `url('${data.url}')`;
   });
 }
 
@@ -138,7 +137,9 @@ function setTime(date) {
 async function getNews() {
   const url = `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=RJG7b0Go0sLnc09WTpg4N7mGtZCbHJSf`;
   const request = await fetch(url);
-  return await request.json();
+  request.json().then((data) => {
+    setNews(data);
+  });
 }
 
 /**
@@ -148,12 +149,12 @@ async function getNews() {
 
 function setNews(news) {
   const newsContainer = document.getElementById("news");
-  news.then((data) => {
-    const articles = data.results.slice(0, 5); // return only the first 5 top articles
-    articles.map((data) => {
-      const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
-
-      newsContainer.innerHTML += `
+  newsContainer.innerHTML = "";
+  const shuffled = news.results.sort(() => 0.5 - Math.random());
+  const articles = shuffled.slice(0, 5);
+  articles.map((data) => {
+    const finalDate = data.published_date.split("T")[0]; // removing the time from the published date
+    newsContainer.innerHTML += `
       <div class="news-wrapper">
       <div class="news__image"><img src="${data.multimedia[2].url}"></div>
       <div class="news__info">
@@ -161,8 +162,98 @@ function setNews(news) {
       <p class="news__source">${data.section} &#x2022; ${finalDate}</p>
       </div>
       </div>`;
-    });
   });
+}
+
+/**
+ * checks if the browser has geolocation enabled
+ */
+
+function checkWeather() {
+  if (window.navigator.geolocation) {
+    window.navigator.geolocation.getCurrentPosition(geoSuccess, geoErr);
+  } else {
+    document.getElementById("weather").innerHTML = "geolocation not supported by browser";
+  }
+}
+
+/**
+ * fetches the weather from openweather api
+ */
+
+async function getWeather(lat, long) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=b02825401afe8e67744e41e265592144`;
+  const request = await fetch(url);
+  return await request.json();
+}
+
+/**
+ * converts kelvin to fahrenheit
+ * @param {int} kelvin the current temperature in kelvin
+ * @return {int} returns the temperature in fahrenheit
+ */
+
+function convertFahrenheit(kelvin) {
+  return Math.ceil((kelvin * 9) / 5 - 459.67);
+}
+
+/**
+ * adds weather to the dom
+ */
+
+function geoSuccess(data) {
+  const lat = data.coords.latitude;
+  const long = data.coords.longitude;
+  getWeather(lat, long).then((data) => {
+    console.log(data);
+    const icon = data.weather[0].icon;
+    const conditions = data.weather[0].description;
+    const city = data.name;
+    const country = data.sys.country;
+    const temperature = convertFahrenheit(data.main.temp);
+    const tempMax = convertFahrenheit(data.main.temp_max);
+    const tempMin = convertFahrenheit(data.main.temp_min);
+    const feelsLike = convertFahrenheit(data.main.feels_like);
+    const humidity = data.main.humidity;
+    const windspeed = data.wind.speed;
+    const cloudiness = data.clouds.all;
+
+    document.querySelector(".forcast-container").innerHTML = `
+    <div class="weather">
+    <h2 id="weather__city">${city}, ${country}</h2>
+    <p id="weather__condition">${conditions}</p>
+    <img id="weather__icon" src="http://openweathermap.org/img/wn/${icon}@2x.png">
+    <div id="weather__temperature">
+       <p id="weather__current">${temperature}</p>
+       <p id="weather__range">${tempMin} - ${tempMax}</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">feels like</p>
+      <p class="weather__data">${feelsLike}</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">wind</p>
+      <p class="weather__data">${windspeed} mph</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">humidity</p>
+      <p class="weather__data">${humidity}%</p>
+    </div>
+    <div class="weather__row">
+      <p class="weather__label">cloudiness</p>
+      <p class="weather__data">${cloudiness}%</p>
+    </div>
+  </div>
+  `;
+  });
+}
+
+/**
+ * adds error message to the dom
+ */
+
+function geoErr() {
+  document.getElementById("weather").innerHTML = "could not get location";
 }
 
 /**
@@ -194,21 +285,27 @@ function setQuote(quote) {
 
 function main() {
   // setting the background
-  setBackground();
+  const photo = getPhoto();
+  setBackground(photo);
 
   // setting the date
   const currentDate = getDate();
   const mappedDate = mapDate(currentDate);
   setDate(mappedDate);
 
+  // set the time
   const mappedTime = mapTime(currentDate);
   setTime(mappedTime);
 
+  // set the quote
   const quote = getQuote();
   setQuote(quote);
 
-  const news = getNews();
-  setNews(news);
+  // set the news
+  getNews();
+
+  // check to see if the browser is capable of making the request
+  checkWeather();
 }
 
 main();

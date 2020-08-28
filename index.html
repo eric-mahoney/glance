@@ -22,6 +22,7 @@
     <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
+    <div id="backgroundImage"></div>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -46,11 +47,25 @@
 
       <!-- NEWS CONTAINER-->
       <section class="container--news">
-        <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
-        <div id="news"></div>
+        <div class="inline">
+          <a onClick="getNews()" class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
+          <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
+        </div>
+        <div id="news">
+          <div class="loader"></div>
+        </div>
       </section>
 
       <!-- WEATHER CONTAINER -->
+      <section class="container--weather">
+        <div class="inline">
+          <a onClick="checkWeather()" class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
+          <h2 class="section-heading">FORECAST
+        </div>
+        <div class="forcast-container">
+          <div class="loader"></div>
+        </div>
+      </section>
     </div>
 
     <!-- QUOTE CONTAINER -->
