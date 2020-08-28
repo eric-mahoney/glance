@@ -253,7 +253,7 @@ function geoSuccess(data) {
  */
 
 function geoErr() {
-  document.querySelector(".forcast-container").innerHTML = "could not get location";
+  document.querySelector(".forcast-container").innerHTML = "err: browser blocked geolocation api";
 }
 
 /**
