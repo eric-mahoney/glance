@@ -222,7 +222,7 @@ function geoSuccess(data) {
     <div class="weather">
     <h2 id="weather__city">${city}, ${country}</h2>
     <p id="weather__condition">${conditions}</p>
-    <img id="weather__icon" src="http://openweathermap.org/img/wn/${icon}@2x.png">
+    <img id="weather__icon" src="/assets/weather-icons/${icon}.svg">
     <div id="weather__temperature">
        <p id="weather__current">${temperature}</p>
        <p id="weather__range">${tempMin} - ${tempMax}</p>
@@ -253,7 +253,7 @@ function geoSuccess(data) {
  */
 
 function geoErr() {
-  document.getElementById("weather").innerHTML = "could not get location";
+  document.querySelector(".forcast-container").innerHTML = "err: browser blocked geolocation api";
 }
 
 /**
