@@ -93,6 +93,7 @@ section {
 
 .container--news {
   grid-column: 1/2;
+  grid-row: 2/3;
 }
 
 .news-wrapper {
@@ -186,9 +187,8 @@ WEATHER
 
 .weather {
   margin: 20px 0px;
-  max-width: 300px;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(25, 25, 25, 0.5);
   border-radius: 5px;
   overflow: hidden;
   display: grid;
@@ -255,9 +255,9 @@ WEATHER
 */
 
 .container--quote {
+  grid-column: 1/4;
   margin: 0 auto;
   width: 100%;
-  padding: 20px;
   display: flex;
   justify-content: center;
 }
@@ -310,9 +310,6 @@ MEDIA QUERIES
     justify-content: center;
   }
   .weather {
-    max-width: 100%;
-  }
-  .forcast-container {
-    width: 90%;
+    width: 100%;
   }
 }
