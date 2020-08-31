@@ -205,7 +205,6 @@ function geoSuccess(data) {
   const lat = data.coords.latitude;
   const long = data.coords.longitude;
   getWeather(lat, long).then((data) => {
-    console.log(data);
     const icon = data.weather[0].icon;
     const conditions = data.weather[0].description;
     const city = data.name;
