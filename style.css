@@ -256,7 +256,7 @@ WEATHER
 
 .container--quote {
   grid-column: 1/4;
-  margin: 0 auto;
+  margin: 50px auto;
   width: 100%;
   display: flex;
   justify-content: center;
