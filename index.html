@@ -45,17 +45,6 @@
         <p class="time"><span id="hour"></span>:<span id="minute"></span><span id="period"></span></p>
       </section>
 
-      <!-- NEWS CONTAINER-->
-      <section class="container--news">
-        <div class="inline">
-          <a onClick="getNews()" class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
-          <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
-        </div>
-        <div id="news">
-          <div class="loader"></div>
-        </div>
-      </section>
-
       <!-- WEATHER CONTAINER -->
       <section class="container--weather">
         <div class="inline">
@@ -66,15 +55,25 @@
           <div class="loader"></div>
         </div>
       </section>
-    </div>
 
-    <!-- QUOTE CONTAINER -->
-    <section class="container--quote">
-      <div class="quote">
-        <p class="quote__content"></p>
-        <p class="quote__author"></p>
-      </div>
-    </section>
+      <!-- NEWS CONTAINER-->
+      <section class="container--news">
+        <div class="inline">
+          <a onClick="getNews()" class="btn--refresh"><img class="img--refresh" src="assets/reload.svg" /></a>
+          <h2 class="section-heading">TOP HEADLINES VIA NEW YORK TIMES</h2>
+        </div>
+        <div id="news">
+          <div class="loader"></div>
+        </div>
+      </section>
+      <!-- QUOTE CONTAINER -->
+      <section class="container--quote">
+        <div class="quote">
+          <p class="quote__content"></p>
+          <p class="quote__author"></p>
+        </div>
+      </section>
+    </div>
     <script src="config.js" async defer></script>
     <script src="script.js" async defer></script>
   </body>
