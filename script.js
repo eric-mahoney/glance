@@ -21,12 +21,9 @@ async function getPhoto() {
 
 function setBackground(photo) {
   const body = document.querySelector("body");
-  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), ";
+  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), ";
   photo.then((data) => {
-    body.style.background = gradient + `url('${data.url}')`;
-    body.style.backgroundRepeat = "no-repeat";
-    body.style.backgroundPosition = "center center";
-    body.style.backgroundSize = "cover";
+    body.style.background = gradient + `url('${data.url}')` + " no-repeat center center / cover";
   });
 }
 
