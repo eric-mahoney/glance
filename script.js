@@ -4,7 +4,13 @@
  */
 
 async function getPhoto() {
-  const url = "https://source.unsplash.com/1920x1080/?nature,water"; // url to a random unsplash image
+  let url;
+  console.log("window width is ", window.innerWidth);
+  if (window.innerWidth < 800) {
+    url = "https://source.unsplash.com/1242x2688/?nature,water"; // phone dimensions
+  } else {
+    url = "https://source.unsplash.com/1920x1080/?nature,water"; // desktop dimensions
+  }
   const request = await fetch(url);
   return await request;
 }
@@ -14,10 +20,13 @@ async function getPhoto() {
  */
 
 function setBackground(photo) {
-  const body = document.getElementById("backgroundImage");
-  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 75%), ";
+  const body = document.querySelector("body");
+  const gradient = "linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), ";
   photo.then((data) => {
     body.style.background = gradient + `url('${data.url}')`;
+    body.style.backgroundRepeat = "no-repeat";
+    body.style.backgroundPosition = "center center";
+    body.style.backgroundSize = "cover";
   });
 }
 
