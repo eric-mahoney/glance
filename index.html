@@ -13,11 +13,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./static/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon-16x16.png" />
+    <link rel="manifest" href="./static/site.webmanifest" />
+    <link rel="mask-icon" href="./static/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
   </head>
@@ -35,13 +35,8 @@
     <div class="main-content-container">
       <!-- MAIN HEADING -->
       <section class="container--date">
-        <h2 class="header-text">
-          <span id="weekday"></span>,
-          <span id="month"></span>
-          <span id="date"></span>,
-          <span id="year"></span>
-        </h2>
-        <p class="time"><span id="hour"></span>:<span id="minute"></span><span id="period"></span></p>
+        <h2 class="header-text"></h2>
+        <p class="time"></p>
       </section>
 
       <!-- WEATHER CONTAINER -->
@@ -73,7 +68,7 @@
         </div>
       </section>
     </div>
-    <script src="config.js" async defer></script>
-    <script src="script.js" async defer></script>
+    <script type="module" src="./DateManager.js"></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>
