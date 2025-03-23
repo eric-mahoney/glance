@@ -1,6 +1,7 @@
 // import PhotoManager from "./PhotoManager";
 import DateManager from "./DateManager.js";
 import NewsManager from "./NewsManager.js";
+import QuoteManager from './QuoteManager.js';
 
 // deprecated code that was used for the photo manager
 // function initializePhotoFeatures() {
@@ -27,17 +28,23 @@ function initializeDateFeatures() {
 async function initializeNewsFeatures() {
   const newsManager = new NewsManager();
   const newsWrapper = document.querySelector('#news')
-  
   await newsManager.getNews();
-  
   newsManager.getProcessedNews();
   newsManager.appendAllNewsArticlesToElement(newsWrapper)
+}
+
+async function initializeQuoteFeatures() {
+  const quoteManager = new QuoteManager();
+  const quoteWrapper = document.querySelector('.quote')
+  await quoteManager.getQuote()
+  quoteManager.appendQuoteToDOM(quoteWrapper)
 }
 
 function main() {
   // initializePhotoFeatures();
   initializeDateFeatures();
-  initializeNewsFeatures();
+  // initializeNewsFeatures();
+  // initializeQuoteFeatures();
 }
 
 main();
