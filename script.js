@@ -1,13 +1,14 @@
 // import PhotoManager from "./PhotoManager";
 import DateManager from "./DateManager.js";
+import NewsManager from "./NewsManager.js";
 
-// function initializePhotoFeatures() {
 // deprecated code that was used for the photo manager
-// const body = document.querySelector("body");
-// const photoManager = new PhotoManager();
-// photoManager.getPhotoFromUnsplash();
-// photoManager.getPhotoURL();
-// photoManager.setBackground(body);
+// function initializePhotoFeatures() {
+//    const body = document.querySelector("body");
+//    const photoManager = new PhotoManager();
+//    photoManager.getPhotoFromUnsplash();
+//    photoManager.getPhotoURL();
+//    photoManager.setBackground(body);
 // }
 
 function initializeDateFeatures() {
@@ -23,9 +24,20 @@ function initializeDateFeatures() {
   }, 1000);
 }
 
+async function initializeNewsFeatures() {
+  const newsManager = new NewsManager();
+  const newsWrapper = document.querySelector('#news')
+  
+  await newsManager.getNews();
+  
+  newsManager.getProcessedNews();
+  newsManager.appendAllNewsArticlesToElement(newsWrapper)
+}
+
 function main() {
   // initializePhotoFeatures();
   initializeDateFeatures();
+  initializeNewsFeatures();
 }
 
 main();
